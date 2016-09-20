@@ -89,6 +89,31 @@ var Accordion = React.createClass({
     setTimeout(this._getContentHeight);
   },
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.content !== this.props.content) {
+      setTimeout(this._resize);
+    }
+  },
+
+  _resize() {
+    setTimeout(()=> {
+      if (this.refs.AccordionContent) {
+        this.refs.AccordionContent.measure((ox, oy, width, height, px, py) => {
+          // Sets content height in state
+          this.setState({
+            content_height: height
+          }, ()=> {
+            this.tweenState('height', {
+              easing: tweenState.easingTypes[this.props.easing],
+              duration: 0,
+              endValue: this.state.content_height
+            });
+          });
+        });
+      }
+    });
+  },
+
   render() {
     return (
       /*jshint ignore:start */
