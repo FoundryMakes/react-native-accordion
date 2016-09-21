@@ -103,11 +103,13 @@ var Accordion = React.createClass({
           this.setState({
             content_height: height
           }, ()=> {
-            this.tweenState('height', {
-              easing: tweenState.easingTypes[this.props.easing],
-              duration: 0,
-              endValue: this.state.content_height
-            });
+            if (this.state.is_visible) {
+              this.tweenState('height', {
+                easing: tweenState.easingTypes[this.props.easing],
+                duration: 0,
+                endValue: this.state.content_height
+              });
+            }
           });
         });
       }
